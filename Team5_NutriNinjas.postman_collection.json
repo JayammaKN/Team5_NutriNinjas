@@ -1,0 +1,4133 @@
+{
+  "info": {
+    "_postman_id": "71600ff6-dc2a-4467-82f3-597050436f89",
+    "name": "Team5_NutriNinjas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56629971",
+    "_collection_link": "https://go.postman.co/collection/56629971-71600ff6-dc2a-4467-82f3-597050436f89?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "DieticianModule",
+      "item": [
+        {
+          "name": "Post",
+          "item": [
+            {
+              "name": "Login with Admin credentials",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "if (pm.response.code === 200 && response.token) {",
+                      "    pm.collectionVariables.set(\"Admintoken\", response.token);",
+                      "    console.log(\"Token saved successfully.\");",
+                      "}",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "",
+                      "const schema = {",
+                      "    type: \"object\",",
+                      "    required: [",
+                      "        \"token\",",
+                      "        \"type\",",
+                      "        \"userId\",",
+                      "        \"loginUserEmail\",",
+                      "        \"roles\"",
+                      "    ],",
+                      "    properties: {",
+                      "        token: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        type: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        userId: {",
+                      "            type: \"number\"",
+                      "        },",
+                      "        loginUserEmail: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        roles: {",
+                      "            type: \"array\"",
+                      "        }",
+                      "    }",
+                      "};",
+                      "",
+                      "pm.test(\"Validate response schema\", function () {",
+                      "    pm.response.to.have.jsonSchema(schema);",
+                      "});",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userLoginEmail\": \"{{userLoginEmail}}\",\n  \"password\": \"{{password}}\"\n}\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/login",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "pm.test(\"Dietician ID is generated\", function () {",
+                      "    pm.expect(response.id).to.exist;",
+                      "    pm.expect(response.id).to.be.a(\"number\");",
+                      "});",
+                      "",
+                      "if (response.id) {",
+                      "    pm.collectionVariables.set(\"dieticianId\", response.id);",
+                      "    console.log(\"Dietician ID:\", response.id);",
+                      "}",
+                      "",
+                      "if (response.Email) {",
+                      "    pm.collectionVariables.set(\"dieticianEmail\", response.Email);",
+                      "    console.log(\"Dietician Email:\", response.Email);",
+                      "}",
+                      "",
+                      "const schema = {",
+                      "    type: \"object\",",
+                      "    required: [",
+                      "        \"id\",",
+                      "        \"Firstname\",",
+                      "        \"Lastname\",",
+                      "        \"ContactNumber\",",
+                      "        \"DateOfBirth\",",
+                      "        \"Email\",",
+                      "        \"HospitalName\",",
+                      "        \"HospitalStreet\",",
+                      "        \"HospitalCity\",",
+                      "        \"HospitalPincode\",",
+                      "        \"Education\"",
+                      "    ],",
+                      "    properties: {",
+                      "        id: { type: \"integer\" },",
+                      "        Firstname: { type: \"string\" },",
+                      "        Lastname: { type: \"string\" },",
+                      "        ContactNumber: { type: \"string\" },",
+                      "        DateOfBirth: { type: \"string\" },",
+                      "        Email: { type: \"string\" },",
+                      "        HospitalName: { type: \"string\" },",
+                      "        HospitalStreet: { type: \"string\" },",
+                      "        HospitalCity: { type: \"string\" },",
+                      "        HospitalPincode: { type: \"string\" },",
+                      "        Education: { type: \"string\" }",
+                      "    }",
+                      "};",
+                      "",
+                      "pm.test(\"Validate positive response schema\", function () {",
+                      "    pm.response.to.have.jsonSchema(schema);",
+                      "});",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login with valid Dietician Email",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "if (pm.response.code === 200 && response.token) {",
+                      "    pm.collectionVariables.set(\"dieticianToken\", response.token);",
+                      "    console.log(\"Token saved successfully.\");",
+                      "}",
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "",
+                      "const schema = {",
+                      "    type: \"object\",",
+                      "    required: [",
+                      "        \"token\",",
+                      "        \"type\",",
+                      "        \"userId\",",
+                      "        \"loginUserEmail\",",
+                      "        \"roles\"",
+                      "    ],",
+                      "    properties: {",
+                      "        token: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        type: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        userId: {",
+                      "            type: \"number\"",
+                      "        },",
+                      "        loginUserEmail: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        roles: {",
+                      "            type: \"array\"",
+                      "        }",
+                      "    }",
+                      "};",
+                      "",
+                      "pm.test(\"Validate response schema\", function () {",
+                      "    pm.response.to.have.jsonSchema(schema);",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userLoginEmail\": \"{{dieticianEmail}}\",\n  \"password\": \"{{password}}\"\n}\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/login",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login with valid Dietician Email and Invalid password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+                      "        .to.include(\"application/json\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error code\", function () {",
+                      "    pm.expect(response.error)",
+                      "        .to.eql(\"Bad Request\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error message\", function () {",
+                      "    pm.expect(response.message)",
+                      "        .to.eql(\"An unexpected error occurred.\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userLoginEmail\": \"{{dieticianEmail}}\",\n  \"password\": {{password}}\n}\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/login",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login with invalid Dietician Email containing only numbers",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "console.log(\"Inside 6th API Validation\")",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 401\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+                      "        .to.include(\"application/json\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error code\", function () {",
+                      "    pm.expect(response.errorCode)",
+                      "        .to.eql(\"Invalid UserName or Password\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error message\", function () {",
+                      "    pm.expect(response.errorMessage)",
+                      "        .to.eql(\"Bad credentials\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userLoginEmail\": \"{{userLoginEmail}}\",\n  \"password\": \"{{password}}\"\n}\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/login",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login with invalid Dietician Email containing only Special characters",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 401\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+                      "        .to.include(\"application/json\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error code\", function () {",
+                      "    pm.expect(response.errorCode)",
+                      "        .to.eql(\"Invalid UserName or Password\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error message\", function () {",
+                      "    pm.expect(response.errorMessage)",
+                      "        .to.eql(\"Bad credentials\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userLoginEmail\": \"{{userLoginEmail}}\",\n  \"password\": \"{{password}}\"\n}\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/login",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login with valid Dietician Email and no Password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 401\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+                      "        .to.include(\"application/json\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error code\", function () {",
+                      "    pm.expect(response.errorCode)",
+                      "        .to.eql(\"Invalid UserName or Password\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error message\", function () {",
+                      "    pm.expect(response.errorMessage)",
+                      "        .to.eql(\"Bad credentials\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userLoginEmail\": \"{{dieticianEmail}}\"\n}\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/login",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with all empty fields",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "",
+                      "pm.test(\"Response body is an object\", function () {",
+                      "    pm.expect(response).to.be.an(\"object\");",
+                      "});",
+                      "",
+                      "pm.test(\"Validate hospital name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's hospital name is required!\",",
+                      "        \"Enter a valid hospital name. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dHospitalName);",
+                      "});",
+                      "pm.test(\"Validate first name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's firstname is required!\",",
+                      "        \"FirstName should only contain Alphabets\"",
+                      "    ]).to.include(response.firstName);",
+                      "});",
+                      "pm.test(\"Validate hospital city name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's hospital city name is required!\",",
+                      "        \"Invalid size!\"",
+                      "    ]).to.include(response.dHospitalCityName);",
+                      "});",
+                      "pm.test(\"Validate last name error message\",function(){",
+                      "    pm.expect(response.lastName).to.eql(\"Dietician's lastname is required!\");",
+                      "})",
+                      "",
+                      "pm.test(\"Validate user login email error message\",function(){",
+                      "    pm.expect(response.userLoginEmail).to.eql(\"Invalid Email Id!\");",
+                      "})",
+                      "pm.test(\"Validate contact error message\",function(){",
+                      "    pm.expect(response.contact).to.eql(\"Dietician's contact number is required!\");",
+                      "})",
+                      "pm.test(\"Validate education name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's education is required!\",",
+                      "        \"Enter a valid education qualification. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dEducation);",
+                      "});",
+                      "pm.test(\"Validate date of birth error message\",function(){",
+                      "    pm.expect(response.dateOfBirth).to.eql(\"Date of Birth is Mandatory!\");",
+                      "})",
+                      "pm.test(\"Validate hospital pincode error message\",function(){",
+                      "    pm.expect(response.dHospitalPinCode).to.eql(\"Dietician's hospital pincode is required!\");",
+                      "})",
+                      "",
+                      "pm.test(\"Validate hospital street name name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's hospital street name is required!\",",
+                      "        \"Enter a valid street name. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dHospitalStreetName);",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty contact number",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate contact number error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's contact number is required!\",",
+                      "        \"Contact number should contain 10 digits\"",
+                      "    ]).to.include(response.contact);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty Email",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate user login email error\", function () {",
+                      "    pm.expect([",
+                      "        \"Login email is required!\",",
+                      "        \"Invalid Email Id!\"",
+                      "    ]).to.include(response.userLoginEmail);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty First name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate first name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's firstname is required!\",",
+                      "        \"FirstName should only contain Alphabets\"",
+                      "    ]).to.include(response.firstName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with numbers in First name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate first name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's firstname is required!\",",
+                      "        \"FirstName should only contain Alphabets\"",
+                      "    ]).to.include(response.firstName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with special char in First name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate first name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's firstname is required!\",",
+                      "        \"FirstName should only contain Alphabets\"",
+                      "    ]).to.include(response.firstName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty last name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate last name error\", function () {",
+                      "    pm.expect([",
+                      "        \"LastName should only contain Alphabets\"",
+                      "    ]).to.include(response.lastName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with numbers in last name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate last name error\", function () {",
+                      "    pm.expect([",
+                      "        \"LastName should only contain Alphabets\"",
+                      "    ]).to.include(response.lastName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with special char in last name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate lastName error\", function () {",
+                      "    pm.expect([",
+                      "        \"LastName should only contain Alphabets\"",
+                      "    ]).to.include(response.lastName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty HospitalCity",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate hospital city error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's hospital city name is required!\"",
+                      "    ]).to.include(response.dHospitalCityName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with numbers in HospitalCity",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate hospital city error\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid city name. It must contain letters and may include spaces or hyphens.\"",
+                      "    ]).to.include(response.dHospitalCityName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with special char in HospitalCity",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate hospital city error\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid city name. It must contain letters and may include spaces or hyphens.\"",
+                      "    ]).to.include(response.dHospitalCityName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty HospitalName",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate hospital name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid hospital name. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dHospitalName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with numbers in HospitalName",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate hospital name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid hospital name. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dHospitalName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with special char in HospitalName",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate hospital name error\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid hospital name. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dHospitalName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",   \n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty hospital pincode",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate hopital code error\", function () {",
+                      "    pm.expect([",
+                      "        \"Pincode should contain 6 digits\",",
+                      "        \"Dietician's hospital pincode is required!\"",
+                      "    ]).to.include(response.dHospitalPinCode);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty hospital street",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate hopital street error\", function () {",
+                      "    pm.expect([",
+                      "        \"Invalid size!\",",
+                      "        \"Dietician's hospital pincode is required!\"",
+                      "    ]).to.include(response.dHospitalStreetName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with numbers in hospital street",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate hopital street error\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid street name. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dHospitalStreetName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with special char in hospital street",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate hopital street error\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid street name. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dHospitalStreetName);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with less digits hospital pincode",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate hopital code error\", function () {",
+                      "    pm.expect([",
+                      "        \"Pincode should contain 6 digits\",",
+                      "        \"Dietician's hospital pincode is required!\"",
+                      "    ]).to.include(response.dHospitalPinCode);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with alphabets in hospital pincode",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate hopital code error\", function () {",
+                      "    pm.expect([",
+                      "        \"Pincode should contain 6 digits\",",
+                      "        \"Dietician's hospital pincode is required!\"",
+                      "    ]).to.include(response.dHospitalPinCode);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with special char in hospital pincode",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate hopital code error\", function () {",
+                      "    pm.expect([",
+                      "        \"Pincode should contain 6 digits\",",
+                      "        \"Dietician's hospital pincode is required!\"",
+                      "    ]).to.include(response.dHospitalPinCode);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with invalid contact number",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate contact number error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's contact number is required!\",",
+                      "        \"Contact number should contain 10 digits\"",
+                      "    ]).to.include(response.contact);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with less digits in contact number",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate contact number error\", function () {",
+                      "    pm.expect([",
+                      "        \"Dietician's contact number is required!\",",
+                      "        \"Contact number should contain 10 digits\"",
+                      "    ]).to.include(response.contact);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with existing contact number",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.errorMessage).to.eql(\"Dietician user with given date of birth and contact already exists\")",
+                      "})",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.errorCode).to.eql(\"DUPLICATE_ENTITY\")",
+                      "})",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty education",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate education error message\", function () {",
+                      "    pm.expect([",
+                      "        \"Invalid size!\",",
+                      "        \"Enter a valid education qualification. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dEducation);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with number in education",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate education error message\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid education qualification. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dEducation);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with special char in education",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate education error message\", function () {",
+                      "    pm.expect([",
+                      "        \"Enter a valid education qualification. It must contain letters and may include numbers or common symbols.\"",
+                      "    ]).to.include(response.dEducation);",
+                      "});",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with empty date of birth",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.dateOfBirth).to.eql(\"Date of Birth is Mandatory!\")",
+                      "})",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with invalid date of birth",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.message).to.eql(\"An unexpected error occurred.\")",
+                      "})",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.error).to.eql(\"Bad Request\")",
+                      "})",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with alphabets in date of birth",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.message).to.eql(\"An unexpected error occurred.\")",
+                      "})",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.error).to.eql(\"Bad Request\")",
+                      "})",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with special char in date of birth",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.message).to.eql(\"An unexpected error occurred.\")",
+                      "})",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.error).to.eql(\"Bad Request\")",
+                      "})",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create dietician with existing Email",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.errorMessage).to.eql(\"Dietician User with given email already exists\")",
+                      "})",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.errorCode).to.eql(\"DUPLICATE_ENTITY\")",
+                      "})",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Get",
+          "item": [
+            {
+              "name": "Retrieve information of all dieticians",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "const schema = {",
+                      "    type: \"object\",",
+                      "    required: [",
+                      "        \"id\",",
+                      "        \"Firstname\",",
+                      "        \"Lastname\",",
+                      "        \"ContactNumber\",",
+                      "        \"DateOfBirth\",",
+                      "        \"Email\",",
+                      "        \"HospitalName\",",
+                      "        \"HospitalStreet\",",
+                      "        \"HospitalCity\",",
+                      "        \"HospitalPincode\",",
+                      "        \"Education\"",
+                      "    ],",
+                      "    properties: {",
+                      "        id: {",
+                      "            type: \"integer\"",
+                      "        },",
+                      "        Firstname: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Lastname: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        ContactNumber: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        DateOfBirth: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Email: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalName: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalStreet: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalCity: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalPincode: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Education: {",
+                      "            type: \"string\"",
+                      "        }",
+                      "    }",
+                      "};"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\n\n\n"
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve information by dietician id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "const schema = {",
+                      "    type: \"object\",",
+                      "    required: [",
+                      "        \"id\",",
+                      "        \"Firstname\",",
+                      "        \"Lastname\",",
+                      "        \"ContactNumber\",",
+                      "        \"DateOfBirth\",",
+                      "        \"Email\",",
+                      "        \"HospitalName\",",
+                      "        \"HospitalStreet\",",
+                      "        \"HospitalCity\",",
+                      "        \"HospitalPincode\",",
+                      "        \"Education\"",
+                      "    ],",
+                      "    properties: {",
+                      "        id: {",
+                      "            type: \"integer\"",
+                      "        },",
+                      "        Firstname: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Lastname: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        ContactNumber: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        DateOfBirth: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Email: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalName: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalStreet: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalCity: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalPincode: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Education: {",
+                      "            type: \"string\"",
+                      "        }",
+                      "    }",
+                      "};"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\n\n\n"
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/:dieticianId",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    ":dieticianId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "dieticianId",
+                      "value": "{{dieticianId}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve information by invalid dietician id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 404\", function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.errorCode).to.eql(\"NOT_FOUND\")",
+                      "})",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.errorMessage).to.eql(\"Dietician id 999 not found\")",
+                      "})",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\n\n\n"
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/:dieticianId",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    ":dieticianId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "dieticianId",
+                      "value": "{{dieticianid}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve information by no dietician id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.errorCode).to.eql(\"Illegal_Argument\")",
+                      "})",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.errorMessage).to.eql(\"For input string: \\\":dieticianId\\\"\")",
+                      "})",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\n\n\n"
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/:dieticianId",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    ":dieticianId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "dieticianId",
+                      "value": "{{dieticianNoId}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve information of all dieticians with invalid endpoint",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 404\", function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.error).to.eql(\"Not Found\")",
+                      "})",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.message).to.eql(\"Endpoint not supported.\")",
+                      "})",
+                      "",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\n\n\n"
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietic",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietic"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve information of all dieticians with no endpoint",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 404\", function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.error).to.eql(\"Not Found\")",
+                      "})",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.message).to.eql(\"Endpoint not supported.\")",
+                      "})",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\n\n\n"
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Put",
+          "item": [
+            {
+              "name": "Update Dietician By Id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "const schema = {",
+                      "    type: \"object\",",
+                      "    required: [",
+                      "        \"id\",",
+                      "        \"Firstname\",",
+                      "        \"Lastname\",",
+                      "        \"ContactNumber\",",
+                      "        \"DateOfBirth\",",
+                      "        \"Email\",",
+                      "        \"HospitalName\",",
+                      "        \"HospitalStreet\",",
+                      "        \"HospitalCity\",",
+                      "        \"HospitalPincode\",",
+                      "        \"Education\"",
+                      "    ],",
+                      "    properties: {",
+                      "        id: {",
+                      "            type: \"integer\"",
+                      "        },",
+                      "        Firstname: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Lastname: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        ContactNumber: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        DateOfBirth: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Email: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalName: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalStreet: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalCity: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        HospitalPincode: {",
+                      "            type: \"string\"",
+                      "        },",
+                      "        Education: {",
+                      "            type: \"string\"",
+                      "        }",
+                      "    }",
+                      "};",
+                      "pm.test(\"Validate error response schema\", function () {",
+                      "    pm.response.to.have.jsonSchema(schema);",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/:dieticianId",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    ":dieticianId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "dieticianId",
+                      "value": "{{dieticianId}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Dietician By invalid Id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 404\", function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "pm.test(\"Validate error code\", function(){",
+                      "    pm.expect(response.errorCode).to.eql(\"NOT_FOUND\")",
+                      "})",
+                      "pm.test(\"Validate error message\", function(){",
+                      "    pm.expect(response.errorMessage).to.eql(\"Dietician with 8 does not exists\")",
+                      "})"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n} \n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/:dieticianId",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    ":dieticianId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "dieticianId",
+                      "value": "999"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Dietician By invalid Id with missing mandatory field",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Content-Type header is application/json\", function () {",
+                      "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                      "});",
+                      "pm.test(\"Validate ContactNumber message\", function(){",
+                      "    pm.expect(response.contact).to.eql(\"Contact number should contain 10 digits\")",
+                      "})",
+                      "pm.test(\"Validate ContactNumber error message\", function () {",
+                      "    pm.expect([",
+                      "        \"Contact number should contain 10 digits\",",
+                      "        \"Dietician's contact number is required!\"",
+                      "    ]).to.include(response.contact);",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ContactNumber\": \"{{ContactNumber}}\",\n  \"DateOfBirth\": \"{{DateOfBirth}}\",\n  \"Education\": \"{{Education}}\",\n  \"Email\": \"{{Email}}\",\n  \"Firstname\": \"{{Firstname}}\",\n  \"HospitalCity\": \"{{HospitalCity}}\",\n  \"HospitalName\": \"{{HospitalName}}\",\n  \"HospitalPincode\": \"{{HospitalPincode}}\",\n  \"HospitalStreet\": \"{{HospitalStreet}}\",\n  \"Lastname\": \"{{Lastname}}\"\n \n}  \n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/:dieticianId",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    ":dieticianId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "dieticianId",
+                      "value": "4"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "MorbidityModule",
+      "item": [
+        {
+          "name": "Get Admin",
+          "item": [
+            {
+              "name": "GET Get All Morbidities",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "pm.test(\"Returns array of morbidities\", function () { pm.expect(response).to.be.an(\"array\"); });",
+                      "pm.test(\"Content-Type header is application/json\", function () { pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\"); });"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET GET Morbidity by Test Name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200 or 404\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });",
+                      "if (pm.response.code === 200) {",
+                      "    pm.test(\"Returns array\", function () { pm.expect(response).to.be.an(\"array\"); });",
+                      "    pm.test(\"Response contains matching test name\", function () {",
+                      "        var testName = pm.iterationData.get(\"morbidityTestName\");",
+                      "        var found = response.some(function(item) { return item.morbidityTestName.toLowerCase().includes(testName.toLowerCase()); });",
+                      "        pm.expect(found).to.be.true;",
+                      "    });",
+                      "} else {",
+                      "    pm.test(\"404 error returned for non-existent name\", function () { pm.expect(response).to.have.property(\"errorCode\"); });",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity/{{morbidityTestName}}",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity",
+                    "{{morbidityTestName}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET GET Trailing Slash Broken Link",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Trailing slash is handled by API\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]); });"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity/",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET GET Invalid Characters Broken Link",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 400 or 404\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity/!@#$",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity",
+                    "!@"
+                  ],
+                  "hash": "$"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET GET SQL Injection Broken Link",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"SQL injection is rejected or unauthorized\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 401, 404]); });"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{Admintoken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity/' OR 1=1--",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity",
+                    "' OR 1=1--"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET Dietician",
+          "item": [
+            {
+              "name": "GET Get All Morbidities Dietician",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "pm.test(\"Returns array of morbidities\", function () { pm.expect(response).to.be.an(\"array\"); });",
+                      "pm.test(\"Content-Type header is application/json\", function () { pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\"); });"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{dieticianToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET GET Get Morbidity by Test Name Dietician",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "pm.test(\"Status code is 200 or 404\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });",
+                      "if (pm.response.code === 200) {",
+                      "    pm.test(\"Returns array\", function () { pm.expect(response).to.be.an(\"array\"); });",
+                      "    pm.test(\"Response contains matching test name\", function () {",
+                      "        var testName = pm.iterationData.get(\"morbidityTestName\");",
+                      "        var found = response.some(function(item) { return item.morbidityTestName.toLowerCase().includes(testName.toLowerCase()); });",
+                      "        pm.expect(found).to.be.true;",
+                      "    });",
+                      "} else {",
+                      "    pm.test(\"404 error returned for non-existent name\", function () { pm.expect(response).to.have.property(\"errorCode\"); });",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{dieticianToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity/{{morbidityTestName}}",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity",
+                    "{{morbidityTestName}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET GET Trailing Slash Dietician",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Trailing slash is handled by API\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]); });"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{dieticianToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity/",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET GET Invalid Characters Dietician",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 400 or 404\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{dieticianToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity/!@#$",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity",
+                    "!@"
+                  ],
+                  "hash": "$"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET GET SQL Injection Dietician",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"SQL injection is rejected or unauthorized\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 401, 404]); });"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{dieticianToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BaseUrl}}/dietician/morbidity/' OR 1=1--",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "dietician",
+                    "morbidity",
+                    "' OR 1=1--"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Delete",
+      "item": [
+        {
+          "name": "Delete  by dietician id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Content-Type header is application/json\", function () {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                  "});",
+                  "",
+                  "pm.test(\"Validate delete response\", function () {",
+                  "    pm.expect(pm.response.text())",
+                  "        .to.include(\"Deleted dietician successfully with id-4\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{Admintoken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\n\n\n"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/dietician/:dieticianId",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "dietician",
+                ":dieticianId"
+              ],
+              "variable": [
+                {
+                  "key": "dieticianId",
+                  "value": "{{dieticianId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete by invalid dietician id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Content-Type header is application/json\", function () {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+                  "});",
+                  "",
+                  "pm.test(\"Validate error code\", function(){",
+                  "    pm.expect(response.errorCode).to.eql(\"NOT_FOUND\")",
+                  "})",
+                  "pm.test(\"Validate error message\", function(){",
+                  "    pm.expect(response.errorMessage).to.eql(\"Dietician with 8 does not exists\")",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{Admintoken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\n\n\n"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/dietician/:dieticianId",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "dietician",
+                ":dieticianId"
+              ],
+              "variable": [
+                {
+                  "key": "dieticianId",
+                  "value": "{{dieticianid}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "//--------------Fetch Data from External JSON Data file-----------------",
+          "if (typeof pm.variables.get('requestdata') !== 'object') {",
+          "    pm.variables.set('requestdata', pm.iterationData.toObject());",
+          "}",
+          "const requestdata = pm.variables.get('requestdata');",
+          "",
+          "if(typeof requestdata !== 'object' || Object.keys(requestdata).length ===0) {",
+          "    console.log(\"No external file found\")",
+          "    return;",
+          "}",
+          "",
+          "const currentrequest = requestdata.requests.filter(({Testname}) => Testname === pm.info.requestName) [0];",
+          "if(!currentrequest){",
+          "    console.log(`Request ${pm.info.requestName} has no data defined.`);",
+          "}",
+          "",
+          "const variables = currentrequest;",
+          "",
+          "Object.entries(variables).forEach(([key, value]) => {",
+          "        console.log(\"Key: \" + key + \"Value: \" + value)",
+          "        pm.variables.set(key, value);",
+          "    });",
+          "",
+          "pm.variables.set('requestdata',requestdata);",
+          "if(!currentrequest){",
+          "    pm.execution.setNextRequest(pm.info.requestName)",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "Admintoken",
+      "value": ""
+    },
+    {
+      "key": "BaseUrl",
+      "value": ""
+    },
+    {
+      "key": "dieticianToken",
+      "value": ""
+    },
+    {
+      "key": "dieticianId",
+      "value": ""
+    },
+    {
+      "key": "dieticianEmail",
+      "value": ""
+    }
+  ]
+}
