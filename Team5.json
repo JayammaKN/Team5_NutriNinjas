@@ -770,7 +770,12 @@
 		"Temperature" : "97",
 		"SP" : "100",
 		"DP" : "68"
-	  }
+	  },
+    {
+      "Testname": "Patient Login For Getting Morbidity Details",
+      "userLoginEmail": "yash.patient01@test.com",
+      "password": "test"
+    }
     ]
   }
 ]
