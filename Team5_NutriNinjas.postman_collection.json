@@ -3499,7 +3499,9 @@
                       "pm.test(\"Returns array of morbidities\", function () { pm.expect(response).to.be.an(\"array\"); });",
                       "pm.test(\"Content-Type header is application/json\", function () { pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\"); });"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3517,12 +3519,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity",
+                  "raw": "{{BaseUrl}}/morbidity",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity"
                   ]
                 }
@@ -3541,7 +3542,7 @@
                       "if (pm.response.code === 200) {",
                       "    pm.test(\"Returns array\", function () { pm.expect(response).to.be.an(\"array\"); });",
                       "    pm.test(\"Response contains matching test name\", function () {",
-                      "        var testName = pm.iterationData.get(\"morbidityTestName\");",
+                      "        var testName = pm.variables.get(\"morbidityTestName\");",
                       "        var found = response.some(function(item) { return item.morbidityTestName.toLowerCase().includes(testName.toLowerCase()); });",
                       "        pm.expect(found).to.be.true;",
                       "    });",
@@ -3549,7 +3550,9 @@
                       "    pm.test(\"404 error returned for non-existent name\", function () { pm.expect(response).to.have.property(\"errorCode\"); });",
                       "}"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3567,12 +3570,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity/{{morbidityTestName}}",
+                  "raw": "{{BaseUrl}}/morbidity/{{morbidityTestName}}",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity",
                     "{{morbidityTestName}}"
                   ]
@@ -3589,7 +3591,9 @@
                     "exec": [
                       "pm.test(\"Trailing slash is handled by API\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]); });"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3607,12 +3611,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity/",
+                  "raw": "{{BaseUrl}}/morbidity/",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity",
                     ""
                   ]
@@ -3629,7 +3632,9 @@
                     "exec": [
                       "pm.test(\"Status code is 400 or 404\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3647,12 +3652,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity/!@#$",
+                  "raw": "{{BaseUrl}}/morbidity/!@#$",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity",
                     "!@"
                   ],
@@ -3670,7 +3674,9 @@
                     "exec": [
                       "pm.test(\"SQL injection is rejected or unauthorized\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 401, 404]); });"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3688,12 +3694,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity/' OR 1=1--",
+                  "raw": "{{BaseUrl}}/morbidity/' OR 1=1--",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity",
                     "' OR 1=1--"
                   ]
@@ -3718,7 +3723,9 @@
                       "pm.test(\"Returns array of morbidities\", function () { pm.expect(response).to.be.an(\"array\"); });",
                       "pm.test(\"Content-Type header is application/json\", function () { pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\"); });"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3736,12 +3743,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity",
+                  "raw": "{{BaseUrl}}/morbidity",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity"
                   ]
                 }
@@ -3760,7 +3766,7 @@
                       "if (pm.response.code === 200) {",
                       "    pm.test(\"Returns array\", function () { pm.expect(response).to.be.an(\"array\"); });",
                       "    pm.test(\"Response contains matching test name\", function () {",
-                      "        var testName = pm.iterationData.get(\"morbidityTestName\");",
+                      "        var testName = pm.variables.get(\"morbidityTestName\"); ",
                       "        var found = response.some(function(item) { return item.morbidityTestName.toLowerCase().includes(testName.toLowerCase()); });",
                       "        pm.expect(found).to.be.true;",
                       "    });",
@@ -3768,7 +3774,9 @@
                       "    pm.test(\"404 error returned for non-existent name\", function () { pm.expect(response).to.have.property(\"errorCode\"); });",
                       "}"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3786,12 +3794,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity/{{morbidityTestName}}",
+                  "raw": "{{BaseUrl}}/morbidity/{{morbidityTestName}}",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity",
                     "{{morbidityTestName}}"
                   ]
@@ -3808,7 +3815,9 @@
                     "exec": [
                       "pm.test(\"Trailing slash is handled by API\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]); });"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3826,12 +3835,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity/",
+                  "raw": "{{BaseUrl}}/morbidity/",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity",
                     ""
                   ]
@@ -3848,7 +3856,9 @@
                     "exec": [
                       "pm.test(\"Status code is 400 or 404\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3866,12 +3876,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity/!@#$",
+                  "raw": "{{BaseUrl}}/morbidity/!@#$",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity",
                     "!@"
                   ],
@@ -3889,7 +3898,9 @@
                     "exec": [
                       "pm.test(\"SQL injection is rejected or unauthorized\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 401, 404]); });"
                     ],
-                    "type": "text/javascript"
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
                   }
                 }
               ],
@@ -3907,12 +3918,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{BaseUrl}}/dietician/morbidity/' OR 1=1--",
+                  "raw": "{{BaseUrl}}/morbidity/' OR 1=1--",
                   "host": [
                     "{{BaseUrl}}"
                   ],
                   "path": [
-                    "dietician",
                     "morbidity",
                     "' OR 1=1--"
                   ]
