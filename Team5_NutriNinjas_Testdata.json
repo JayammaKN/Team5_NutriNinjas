@@ -2,16 +2,71 @@
   {
     "requests": [
       {
+        "Testname": "Login with valid admin credentials",
+        "userLoginEmail": "augHackathon@gmail.com",
+        "password": "test"
+      },
+
+      {
+        "Testname": "Login_No request body"
+      },
+      {
+        "Testname": "Login_Empty request body"
+      },
+      {
+        "Testname": "Login_Empty username in request body",
+        "userLoginEmail": "",
+        "password": "test"
+      },
+      {
+        "Testname": "Login_Empty password in request body",
+        "userLoginEmail": "augHackathon@gmail.com",
+        "password": ""
+      },
+      {
+        "Testname": "Login_Empty username and password in request body",
+        "userLoginEmail": "",
+        "password": ""
+      },
+      {
+        "Testname": "Login_Invalid credentials",
+        "userLoginEmail": "test@gmail.com",
+        "password": "123"
+      },
+      {
+        "Testname": "Login_Invalid credentials data type",
+        "userLoginEmail": "23456",
+        "password": "true"
+      },
+      {
+        "Testname": "Login_Extra keys in request body",
+        "userLoginEmail": "23456",
+        "password": "true",
+        "testkey" : "test"
+      },
+      {
+        "Testname": "Logout"
+      },
+      {
+        "Testname": "Logout_Missing authorization"
+      },
+      {
+        "Testname": "Logout_Invalid token"
+      },
+      {
+        "Testname": "Logout_Expired token"
+      },
+      {
         "Testname": "Login with Admin credentials",
         "userLoginEmail": "augHackathon@gmail.com",
         "password": "test"
       },
       {
         "Testname": "create dietician",
-        "ContactNumber": "6104567267",
+        "ContactNumber": "6104567258",
         "DateOfBirth": "1991-07-10",
         "Education": "Ms Nutrition",
-        "Email": "Team5NutrininjasAugu@gmail.com",
+        "Email": "Team5NutrininjasAugus@gmail.com",
         "Firstname": "Nutri",
         "HospitalCity": "Mason",
         "HospitalName": "Wellstar Hospitals",
@@ -21,7 +76,7 @@
       },
       {
         "Testname": "Login with valid Dietician Email",
-        "userLoginEmail": "Team5Nutrininjas22@gmail.com",
+        "userLoginEmail": "Team5NutrininjasAugu@gmail.com",
         "password": "test"
       },
       {
@@ -181,7 +236,7 @@
       },
       {
         "Testname": "create dietician with empty HospitalCity",
-        "ContactNumber": "123",
+        "ContactNumber": "6704567450",
         "DateOfBirth": "1990-07-26",
         "Education": "Ms Nutrition",
         "Email": "Team5Nutrininjas24@gmail.com",
@@ -775,6 +830,286 @@
       "Testname": "Patient Login For Getting Morbidity Details",
       "userLoginEmail": "yash.patient01@test.com",
       "password": "test"
+    },
+    {
+      "Testname": "01 Create Patient With Valid Details",
+      "FirstName": "Yash M",
+      "LastName": "Patel",
+      "ContactNumber": "9876543311",
+      "Email": "yash.patient055@gmail.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "South Indian",
+      "DateOfBirth": "1995-05-11",
+      "fileName": "HyperThyroid_Report_final.pdf",
+      "expectedMessage": "File type not supported. Please upload only PDF files.",
+      "expectedStatus": 201
+    },
+    {
+      "Testname": "02 Create Patient Missing First Name",
+      "FirstName": "",
+      "LastName": "Nandigam",
+      "ContactNumber": "9916532812",
+      "Email": "Sambu.Rani@test1.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "Gujarati",
+      "DateOfBirth": "1994-06-10",
+      "expectedStatus": 400
+    },
+    {
+      "Testname": "03 Create Patient Existing Contact And Date Of Birth",
+      "FirstName": "Uma Sambu Rani",
+      "LastName": "Nandigam",
+      "ContactNumber": "9876543310",
+      "Email": "Sambu.Rani@test1.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "Gujarati",
+      "DateOfBirth": "1995-05-10",
+      "expectedStatus": 400
+    },
+    {
+      "Testname": "04 Create Patient Invalid Food Preference",
+      "FirstName": "Uma Sambu Rani",
+      "LastName": "Nandigam",
+      "ContactNumber": "9916532812",
+      "Email": "Sambu.Rani@test1.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN1",
+      "CuisineCategory": "1994-06-10",
+      "DateOfBirth": "1992-03-15",
+      "expectedStatus": 400
+    },
+    {
+      "Testname": "05 Create Patient Invalid Cuisine Category",
+      "FirstName": "Sambu.Rani@test1.com",
+      "LastName": "Nandigam",
+      "ContactNumber": "9916532812",
+      "Email": "Sambu.Rani@test1.com",
+      "Allergy": "MILK",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "Gujarathi",
+      "DateOfBirth": "1995-07-30",
+      "expectedStatus": 400
+    },
+    {
+     "Testname": "06 Create Patient Duplicate Email",
+      "FirstName": "Ramesh",
+      "LastName": "Kumar",
+      "ContactNumber": "9876543216",
+      "Email": "yash.patient05@gmail.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "South Indian",
+      "DateOfBirth": "1995-05-10",
+      "expectedStatus": 400
+    },
+    {
+      "Testname": "07 Create Patient Invalid Date Of Birth Format",
+      "FirstName": "Kavya",
+      "LastName": "Rao",
+      "ContactNumber": "9876543217",
+      "Email": "kavya.patient01@test.com",
+      "Allergy": "SOY",
+      "FoodPreference": "NONVEG",
+      "CuisineCategory": "Punjabi",
+      "DateOfBirth": "10-05-1985",
+      "expectedStatus": 400
+    },
+    {
+     "Testname": "08 Create Patient Without Token",
+      "FirstName": "Neha",
+      "LastName": "Kapoor",
+      "ContactNumber": "9876543218",
+      "Email": "neha.patient01@test.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGAN",
+      "CuisineCategory": "Punjabi",
+      "DateOfBirth": "1993-02-20",
+      "expectedStatus": 401
+    },
+    {
+      "Testname": "09 Create Patient Upload Non PDF File",
+      "FirstName": "Ananya",
+      "LastName": "Sharma",
+      "ContactNumber": "9876543213",
+      "Email": "ananya.patient01@test.com",
+      "Allergy": "PEANUT",
+      "FoodPreference": "JAIN",
+      "CuisineCategory": "Gujarati",
+      "DateOfBirth": "1990-11-22",
+      "fileName": "Diabetic and Hemogram Test_Thyrocare lab.pdf.docx",
+      "expectedMessage": "File type not supported. Please upload only PDF files.",
+      "expectedStatus": 400
+    },
+    {
+        "Testname": "10 Create Patient Without File",
+        "FirstName": "Neha",
+        "LastName": "Kapoor",
+        "ContactNumber": "9876543218",
+        "Email": "neha.patient01@test.com",
+        "Allergy": "NONE",
+        "FoodPreference": "VEGAN",
+        "CuisineCategory": "Punjabi",
+        "DateOfBirth": "1993-02-20",
+        "expectedStatus": 200
+    },
+    {
+        "Testname": "11 Get All Patients",
+      "expectedStatus": 200
+    },
+    {
+     "Testname": "12 Get All Patients Schema Validation",
+      "expectedStatus": 200
+    },
+    {
+        "Testname": "13 Get All Patients Without Diatician Token",
+      "expectedStatus": 401
+    },
+    {
+      "Testname": "14 Get All Patients When None Exist",
+      "expectedStatus": 200,
+      "expectedResponse": []
+    },
+    {
+      "Testname": "15 Get Patient By Valid Id",
+      "patientIdSource": "created_patient",
+      "expectedStatus": 200
+    },
+    {
+      "Testname": "16 Get Patient Deleted Earlier",
+      "patientIdSource": "deleted_patient",
+      "expectedStatus": 404
+    },
+    {
+     "Testname": "17 Get Patient Boundary Id Zero",
+      "patientId": 0,
+      "expectedStatus": 404
+    },
+    {
+     "Testname": "18 Get Patient Boundary Id Negative",
+      "patientId": -1,
+      "expectedStatus": 404
+    },
+    {
+      "Testname": "19 Get Patient Non Numeric Id",
+      "patientId": "abc",
+      "expectedStatus": 400,
+      "note": "docs say 404 but backend returns 400 Illegal_Argument"
+    },
+    {
+      "Testname": "20 Get Patient Nonexistent Id",
+      "patientId": 999999,
+      "expectedStatus": 404
+    },
+    {
+      "Testname": "21 Get Patient Without  Diatician Token",
+      "patientIdSource": "created_patient",
+      "expectedStatus": 401
+    },
+    {
+        "Testname": "22 Update Patient With Valid Details",
+        "FirstName": "Neha",
+        "LastName": "Kapoor",
+        "ContactNumber": "987654355",
+        "Email": "neha.patient02@test.com",
+        "Allergy": "NONE",
+        "FoodPreference": "VEGAN",
+        "CuisineCategory": "Punjabi",
+        "DateOfBirth": "1993-02-20",
+        "expectedStatus": 200
+    },
+    {
+      "Testname": "23 Update Patient Nonexistent Id",
+      "patientId": 999999,
+      "FirstName": "Priya",
+      "LastName": "Patient",
+      "ContactNumber": "9876543230",
+      "Email": "priya.patient@test.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "South Indian",
+      "DateOfBirth": "1990-01-01",
+      "expectedStatus": 404
+    },
+    {
+     "Testname": "24 Update Patient Duplicate Contact And Dob Of Another Patient",
+      "patientIdSource": "patient_b",
+      "FirstName": "Sou",
+      "LastName": "Dia",
+      "ContactNumber": "987654355",
+      "DateOfBirth": "1993-02-20",
+      "Email": "yash.patient05@gmail.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "South Indian",
+      "expectedStatus": 400
+    },
+    {
+      "Testname": "25 Update Patient Invalid Food Preference",
+      "patientIdSource": "created_patient",
+      "FirstName": "Neha",
+      "LastName": "Kapoor",
+      "ContactNumber": "987654355",
+      "Email": "neha.patient02@test.com",
+      "Allergy": "NONE",
+      "FoodPreference": "Eggitarian",
+      "CuisineCategory": "South Indian",
+      "DateOfBirth": "1993-02-20",
+      "expectedStatus": 400
+    },
+    {
+      "Testname": "26 Update Patient First Name Only Keeps Other Fields",
+      "patientIdSource": "created_patient",
+      "FirstName": "Nisha",
+      "expectedStatus": 200
+    },
+    {
+     "Testname": "27 Update Patient Without Token",
+      "patientIdSource": "created_patient",
+      "FirstName": "Neha Updated",
+      "LastName": "Kapoor",
+      "ContactNumber": "987654355",
+      "Email": "neha.patient02@test.com",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "South Indian",
+      "DateOfBirth": "1993-02-20",
+      "expectedStatus": 401
+    },
+    {
+      "Testname": "28 Update Patient With Missing Email",
+      "patientIdSource": "created_patient",
+      "FirstName": "Neha",
+      "LastName": "Kapoor",
+      "ContactNumber": "9876543210",
+      "Email": "",
+      "Allergy": "NONE",
+      "FoodPreference": "VEGETARIAN",
+      "CuisineCategory": "South Indian",
+      "DateOfBirth": "1993-02-20",
+      "expectedStatus": 400
+    },
+    {
+      "Testname": "31 Delete Patient Without Token",
+      "patientIdSource": "patient_to_delete",
+      "expectedStatus": 401
+    },
+    {
+      "Testname": "29 Delete Patient With Valid Id",
+      "patientIdSource": "patient_to_delete",
+      "expectedStatus": 200
+    },
+    {
+      "Testname": "30 Delete Patient Nonexistent Id",
+      "patientId": 999999,
+      "expectedStatus": 404
+    },
+    {
+      "Testname": "32 Delete Patient Already Deleted",
+      "patientIdSource": "deleted_patient",
+      "expectedStatus": 404
     }
     ]
   }
